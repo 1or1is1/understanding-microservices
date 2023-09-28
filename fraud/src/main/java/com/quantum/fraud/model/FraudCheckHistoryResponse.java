@@ -1,2 +1,3 @@
-package com.quantum.fraud.model;public class FraudCheckHistoryResponse {
-}
+package com.quantum.fraud.model;
+
+public record FraudCheckHistoryResponse(Boolean isFraudster) { }
