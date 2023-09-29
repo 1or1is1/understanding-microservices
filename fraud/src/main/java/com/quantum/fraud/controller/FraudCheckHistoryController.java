@@ -1,6 +1,6 @@
 package com.quantum.fraud.controller;
 
-import com.quantum.fraud.model.FraudCheckHistoryResponse;
+import com.quantum.client.fraud.model.FraudCheckHistoryResponse;
 import com.quantum.fraud.service.FraudCheckHistoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
