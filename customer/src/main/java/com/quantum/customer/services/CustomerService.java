@@ -1,8 +1,8 @@
 package com.quantum.customer.services;
 
+import com.quantum.amqp.producer.RabbitmqMessageProducer;
 import com.quantum.client.fraud.FraudClient;
 import com.quantum.client.fraud.model.FraudCheckHistoryResponse;
-import com.quantum.client.notification.NotificationClient;
 import com.quantum.client.notification.NotificationRequest;
 import com.quantum.customer.entity.Customer;
 import com.quantum.customer.model.CustomerRegistrationRequest;
@@ -17,7 +17,7 @@ public record CustomerService(
         CustomerRepository customerRepository,
         RestTemplate restTemplate,
         FraudClient fraudClient,
-        NotificationClient notificationClient) {
+        RabbitmqMessageProducer messageProducer) {
 
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
@@ -31,7 +31,7 @@ public record CustomerService(
         log.info("SENDING NOTIFICATION...");
         NotificationRequest notificationRequest =
                 new NotificationRequest(customer.getId(), customer.getEmail(), "Notification Sample Test");
-        notificationClient.sendNotification(notificationRequest);
+        messageProducer.publish(notificationRequest, "internal.exchange", "internal.notification.routing-key");
     }
 
 }
